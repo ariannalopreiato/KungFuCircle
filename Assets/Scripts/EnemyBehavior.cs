@@ -15,13 +15,14 @@ public class EnemyBehavior : MonoBehaviour
     public Transform point;
 
     public float speed = 2f;
+    public float runningSpeed = 4f;
     private bool rotateOpposite = false;
     private Vector3 startPos;
 
     public bool canAttack = true;
     public enum EnemyState
     {
-        idle, movingToPlayer, moveInCircles, walkingBack, attacking
+        idle, movingToTarget, moveInCircles, walkingBack, attacking
     };
 
     IdleState idleState = new IdleState();
@@ -42,7 +43,7 @@ public class EnemyBehavior : MonoBehaviour
             case EnemyState.idle:
                 currentState = idleState;
                 break;
-            case EnemyState.movingToPlayer:
+            case EnemyState.movingToTarget:
                 currentState = moveToPlayerState;
                 break;
             case EnemyState.moveInCircles:
@@ -75,11 +76,6 @@ public class EnemyBehavior : MonoBehaviour
     {
         //Look at the target(the player) -> defines the direction vector in which it's looking
         transform.LookAt(point);
-        //if (!canAttack)
-        //{
-        //    Wait(100f);
-        //    canAttack = true;
-        //}
     }
 
     private Vector3 GetDirection()
@@ -104,7 +100,7 @@ public class EnemyBehavior : MonoBehaviour
     //STATE BEHAVIORS
     //==============================================================================
 
-    public void WalkToPlayer()
+    public void WalkToTarget()
     {
         transform.position = Vector3.MoveTowards(transform.position, point.position, speed * Time.deltaTime);
     }
@@ -119,7 +115,7 @@ public class EnemyBehavior : MonoBehaviour
 
     public void Attack()
     {
-        transform.position = Vector3.MoveTowards(transform.position, point.position, speed * Time.deltaTime);
+        transform.position = Vector3.MoveTowards(transform.position, point.position, runningSpeed * Time.deltaTime);
     }
 
     public void WalkBack()
@@ -129,8 +125,8 @@ public class EnemyBehavior : MonoBehaviour
             canAttack = true;
     }
 
-    IEnumerator Wait(float time)
+    public void Idle()
     {
-        yield return new WaitForSeconds(time);
+
     }
 }

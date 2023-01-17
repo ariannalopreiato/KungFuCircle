@@ -18,7 +18,7 @@ public class IdleState : State
 
     public override void UpdateState(GameObject currentEnemy)
     {
-
+        currentEnemy.GetComponent<EnemyBehavior>().Idle();
     }
 }
 
@@ -31,7 +31,7 @@ public class MoveToPlayer : State
 
     public override void UpdateState(GameObject currentEnemy)
     {
-        currentEnemy.GetComponent<EnemyBehavior>().WalkToPlayer();
+        currentEnemy.GetComponent<EnemyBehavior>().WalkToTarget();
     }
 }
 

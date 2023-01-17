@@ -14,14 +14,19 @@ public class EnemyManager : MonoBehaviour
 
     private float attackRadius = 10f;
     private float backAttackRadius;
-    private float idleRadius = 30f;
+    private float idleRadius = 40f;
     private float frontIdleRadius;
-    private float attackRange = 2f;
+    private float meleeRange = 2f;
+
+    bool canNewAttackerBeSet;
+    private float lastAttackTime;
+    private float attackWaitTime = 5f;
 
     private void Start()
     {
         backAttackRadius = attackRadius + 3f;
         frontIdleRadius = idleRadius - 5f;
+        canNewAttackerBeSet = true;
     }
 
     void Update()
@@ -33,8 +38,20 @@ public class EnemyManager : MonoBehaviour
                 enemies[i].UpdateEnemyState();
         }
 
+        if (!canNewAttackerBeSet)
+        {
+            float timeSinceLastAttack = Time.time - lastAttackTime;
+
+            // Check if enough time has passed since the last attack
+            if (timeSinceLastAttack >= attackWaitTime)
+            {
+                canNewAttackerBeSet = true;
+                // Update the last attack time
+                lastAttackTime = Time.time;
+            }
+        }   
+
         AttackingRadiusEnemies();
-       // WalkingBackAfterAttack();
     }
 
     void AttackingRadiusEnemies()
@@ -45,27 +62,28 @@ public class EnemyManager : MonoBehaviour
         //get a random enemy to attack
         int randomIdx = Random.Range(0, enemiesInAttackRadius.Count);
 
-        for (int a = 0; a < enemiesInAttackRadius.Count; ++a)
+        for (int i = 0; i < enemiesInAttackRadius.Count; ++i)
         {
-            if (randomIdx == a && attackingEnemy == null && enemiesInAttackRadius[a].canAttack)
+            if (randomIdx == i && attackingEnemy == null && enemiesInAttackRadius[i].canAttack && canNewAttackerBeSet)
             {
                 //set attacking enemy
-                attackingEnemy = enemiesInAttackRadius[a];
+                attackingEnemy = enemiesInAttackRadius[i];
+                canNewAttackerBeSet = false;
             }
 
-            if (enemiesInAttackRadius[a].canAttack && attackingEnemy != enemiesInAttackRadius[a])
+            if (enemiesInAttackRadius[i].canAttack && attackingEnemy != enemiesInAttackRadius[i])
             {
                 int randomBehavior = Random.Range(0, 2);
                 //get the non attacking enemies to circulate the player
                 if(randomBehavior == 0)
-                    enemiesInAttackRadius[a].ChangeState(EnemyBehavior.EnemyState.moveInCircles);
+                    enemiesInAttackRadius[i].ChangeState(EnemyBehavior.EnemyState.moveInCircles);
                 else
-                    enemiesInAttackRadius[a].ChangeState(EnemyBehavior.EnemyState.idle);
+                    enemiesInAttackRadius[i].ChangeState(EnemyBehavior.EnemyState.idle);
             }
             
-            if(!enemiesInAttackRadius[a].canAttack)
+            if(!enemiesInAttackRadius[i].canAttack)
             {
-                enemiesInAttackRadius[a].ChangeState(EnemyBehavior.EnemyState.walkingBack);
+                enemiesInAttackRadius[i].ChangeState(EnemyBehavior.EnemyState.walkingBack);
             }
         }
 
@@ -75,7 +93,7 @@ public class EnemyManager : MonoBehaviour
             attackingEnemy.ChangeState(EnemyBehavior.EnemyState.attacking);
 
             //if the attacking enemy attacked, set it to null
-            if (Vector3.Distance(player.transform.position, attackingEnemy.transform.position) < attackRange)
+            if (Vector3.Distance(player.transform.position, attackingEnemy.transform.position) < meleeRange)
             {
                 attackingEnemy.canAttack = false;
                 attackingEnemy = null;
@@ -98,16 +116,9 @@ public class EnemyManager : MonoBehaviour
         return attackRadiusEnemies;
     }
 
-    List<EnemyBehavior> GetEnemiesInAttackRadius()
+    IEnumerator Wait(float time)
     {
-        List<EnemyBehavior> attackRadiusEnemies = new List<EnemyBehavior>();
-
-        for (int i = 0; i < enemies.Count; ++i)
-        {
-            if (Vector3.Distance(enemies[i].transform.position, player.transform.position) <= attackRange)
-                attackRadiusEnemies.Add(enemies[i]);
-        }
-
-        return attackRadiusEnemies;
+        yield return new WaitForSeconds(time);
+        canNewAttackerBeSet = true;
     }
 }
