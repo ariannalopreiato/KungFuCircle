@@ -65,7 +65,7 @@ public class Attack : State
 {
     public override void OnLeaveState(GameObject currentEnemy)
     {
-
+        currentEnemy.GetComponent<EnemyBehavior>().WalkBack();
     }
 
     public override void UpdateState(GameObject currentEnemy)

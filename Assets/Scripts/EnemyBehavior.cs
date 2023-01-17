@@ -7,6 +7,7 @@ using UnityEditorInternal;
 using UnityEngine;
 using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
+using UnityEngine.SceneManagement;
 
 public class EnemyBehavior : MonoBehaviour
 {
@@ -16,6 +17,8 @@ public class EnemyBehavior : MonoBehaviour
     public float speed = 2f;
     private bool rotateOpposite = false;
     private Vector3 startPos;
+
+    public bool canAttack = true;
     public enum EnemyState
     {
         idle, movingToPlayer, moveInCircles, walkingBack, attacking
@@ -31,8 +34,8 @@ public class EnemyBehavior : MonoBehaviour
 
     public void ChangeState(EnemyState newState)
     {
-        // if (currentState != null)
-        // currentState.OnLeaveState()
+        if (currentState != null)
+            currentState.OnLeaveState(gameObject);
 
         switch (newState)
         {
@@ -68,6 +71,17 @@ public class EnemyBehavior : MonoBehaviour
             rotateOpposite = false;
     }
 
+    private void Update()
+    {
+        //Look at the target(the player) -> defines the direction vector in which it's looking
+        transform.LookAt(point);
+        //if (!canAttack)
+        //{
+        //    Wait(100f);
+        //    canAttack = true;
+        //}
+    }
+
     private Vector3 GetDirection()
     {
         if (rotateOpposite)
@@ -81,20 +95,22 @@ public class EnemyBehavior : MonoBehaviour
         currentState.UpdateState(gameObject);
     }
 
+    public State GetCurrentState()
+    {
+        return currentState;
+    }
+
     //==============================================================================
     //STATE BEHAVIORS
     //==============================================================================
 
     public void WalkToPlayer()
     {
-        transform.LookAt(point);
         transform.position = Vector3.MoveTowards(transform.position, point.position, speed * Time.deltaTime);
     }
 
     public void Circulate()
-    {
-        //Look at the target(the player) -> defines the direction vector in which it's looking
-        transform.LookAt(point);
+    {    
         //Calculate the position in which you are supposed to be going 
         Vector3 targetPosition = GetDirection();
         //Move to the calculated position
@@ -103,31 +119,18 @@ public class EnemyBehavior : MonoBehaviour
 
     public void Attack()
     {
-        transform.LookAt(point);
         transform.position = Vector3.MoveTowards(transform.position, point.position, speed * Time.deltaTime);
     }
 
     public void WalkBack()
     {
-        transform.LookAt(point);
         transform.position = Vector3.MoveTowards(transform.position, startPos, speed * Time.deltaTime);
+        if (Vector3.Distance(transform.position, startPos) < 1f)
+            canAttack = true;
     }
 
-    //    private bool IsWithinForwardRadius(Vector3 currentPos)
-    //    {
-    //        var distancePlayerEnemy = Vector3.Distance(currentPos, point.position);
-    //        if (distancePlayerEnemy <= walkingForwardRadius)
-    //            return true;
-
-    //        return false;
-    //    }
-
-    //    private bool IsOutOfFurthestRadius(Vector3 currentPos)
-    //    {
-    //        var distancePlayerEnemy = Vector3.Distance(currentPos, point.position);
-    //        if (distancePlayerEnemy >= furthestPoint)
-    //            return true;
-
-    //        return false;
-    //    }
+    IEnumerator Wait(float time)
+    {
+        yield return new WaitForSeconds(time);
+    }
 }
