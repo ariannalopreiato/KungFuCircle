@@ -19,7 +19,7 @@ public class EnemyBehavior : MonoBehaviour
     public Transform point;
     public float speed = 2f;
     private bool rotateOpposite = false;
-    private State enemyState = State.movingToPlayer;
+    private State enemyState = State.idle;
 
     [SerializeField]
     float walkingForwardRadius = 3f;
@@ -76,7 +76,7 @@ public class EnemyBehavior : MonoBehaviour
         }
     }
 
-    Vector3 GetDirection()
+    private Vector3 GetDirection()
     {
         if(rotateOpposite)
             return transform.position + (-1) * transform.right * speed * Time.deltaTime;
