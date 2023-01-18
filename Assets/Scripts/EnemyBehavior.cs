@@ -9,15 +9,15 @@ using static UnityEngine.GraphicsBuffer;
 using static UnityEngine.Rendering.VirtualTexturing.Debugging;
 using UnityEngine.SceneManagement;
 
-public class EnemyBehavior : MonoBehaviour
+public abstract class EnemyBehavior : MonoBehaviour
 {
     [SerializeField]
     public Transform point;
 
     public float speed = 2f;
     public float runningSpeed = 4f;
-    private bool rotateOpposite = false;
-    private Vector3 startPos;
+    protected bool rotateOpposite = false;
+    protected Vector3 startPos;
 
     public bool isOutsideOfCameraView = false;
     public bool canAttack = true;
@@ -79,7 +79,7 @@ public class EnemyBehavior : MonoBehaviour
         transform.LookAt(point);
     }
 
-    private Vector3 GetDirection()
+    protected Vector3 GetDirection()
     {
         if (rotateOpposite)
             return transform.position + (-1) * transform.right * speed * Time.deltaTime;
@@ -101,33 +101,13 @@ public class EnemyBehavior : MonoBehaviour
     //STATE BEHAVIORS
     //==============================================================================
 
-    public void WalkToTarget()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, point.position, speed * Time.deltaTime);
-    }
+    public abstract void WalkToTarget();
 
-    public void Circulate()
-    {    
-        //Calculate the position in which you are supposed to be going 
-        Vector3 targetPosition = GetDirection();
-        //Move to the calculated position
-        transform.position = Vector3.MoveTowards(transform.position, targetPosition, speed * Time.deltaTime);
-    }
+    public abstract void Circulate();
 
-    public void Attack()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, point.position, runningSpeed * Time.deltaTime);
-    }
+    public abstract void Attack();
 
-    public void WalkBack()
-    {
-        transform.position = Vector3.MoveTowards(transform.position, startPos, speed * Time.deltaTime);
-        if (Vector3.Distance(transform.position, startPos) < 1f)
-            canAttack = true;
-    }
+    public abstract void WalkBack();
 
-    public void Idle()
-    {
-        transform.position = transform.position;
-    }
+    public abstract void Idle();
 }
