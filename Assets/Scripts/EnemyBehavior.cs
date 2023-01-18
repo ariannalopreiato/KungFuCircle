@@ -12,27 +12,44 @@ using UnityEngine.SceneManagement;
 public abstract class EnemyBehavior : MonoBehaviour
 {
     [SerializeField]
-    public Transform point;
+    protected Transform point;
 
-    public float speed = 2f;
-    public float runningSpeed = 4f;
+    [SerializeField]
+    protected float speed = 2f;
+
+    [SerializeField]
+    protected float runningSpeed = 4f;
+
+    [SerializeField]
+    protected float attackRadiusMelee = 10f;
+
+    //[SerializeField]
+    //protected float farRadius = 30f;
+
+    [SerializeField]
+    protected float midRadius = 20f;
+
+    private Camera camera;
+
     protected bool rotateOpposite = false;
     protected Vector3 startPos;
 
-    public bool isOutsideOfCameraView = false;
-    public bool canAttack = true;
+    protected bool isOutsideOfCameraView = false;
+    public bool canAttack = false;
+    public bool isFar = false;
+
     public enum EnemyState
     {
         idle, movingToTarget, moveInCircles, walkingBack, attacking
     };
 
-    IdleState idleState = new IdleState();
-    MoveToPlayer moveToPlayerState = new MoveToPlayer();
-    Circulate circulateState = new Circulate();
-    WalkBack walkBackState = new WalkBack();
-    Attack attackState = new Attack();
+    protected IdleState idleState = new IdleState();
+    protected MoveToPlayer moveToPlayerState = new MoveToPlayer();
+    protected Circulate circulateState = new Circulate();
+    protected WalkBack walkBackState = new WalkBack();
+    protected Attack attackState = new Attack();
 
-    State currentState;
+    protected State currentState;
 
     public void ChangeState(EnemyState newState)
     {
@@ -63,8 +80,16 @@ public abstract class EnemyBehavior : MonoBehaviour
 
     void Start()
     {
+        //find the camera
+        var cameras = Camera.allCameras;
+        camera = cameras[0];
+
+        //set starting state
         currentState = idleState;
+
+        //save the starting position of enemy
         startPos = gameObject.transform.position;
+
         //randomize in which way the enemy it's going to move (clockwise or anticlockwise)
         int randomSign = UnityEngine.Random.Range(0, 2);
         if (randomSign == 0)
@@ -77,7 +102,30 @@ public abstract class EnemyBehavior : MonoBehaviour
     {
         //Look at the target(the player) -> defines the direction vector in which it's looking
         transform.LookAt(point);
+        SetIsFar();
+        SetCanAttack();
+
+        //check if the enemy is outside or inside the camera viewport
+        Vector3 viewportPosition = camera.WorldToViewportPoint(gameObject.transform.position);
+        if (viewportPosition.x > 0 && viewportPosition.x < 1 && viewportPosition.y > 0 && viewportPosition.y < 1)
+            gameObject.GetComponent<EnemyBehavior>().isOutsideOfCameraView = true;
+        else
+            gameObject.GetComponent<EnemyBehavior>().isOutsideOfCameraView = false;
     }
+
+    public bool GetCanAttack()
+    {
+        return canAttack;
+    }
+
+    public bool GetIsFar()
+    {
+        return isFar;
+    }
+
+    protected abstract void SetCanAttack();
+
+    protected abstract void SetIsFar();
 
     protected Vector3 GetDirection()
     {
@@ -101,7 +149,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     //STATE BEHAVIORS
     //==============================================================================
 
-    public abstract void WalkToTarget();
+    public abstract void WalkToPlayer();
 
     public abstract void Circulate();
 

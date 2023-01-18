@@ -143,8 +143,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1 &320337823 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
@@ -165,8 +167,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1001 &443568622
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -177,6 +181,10 @@ PrefabInstance:
     - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_Name
       value: Enemy (6)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
@@ -341,7 +349,7 @@ Transform:
   m_LocalScale: {x: 1, y: 1, z: 1}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 11
+  m_RootOrder: 12
   m_LocalEulerAnglesHint: {x: 50, y: -30, z: 0}
 --- !u!1001 &743991651
 PrefabInstance:
@@ -353,6 +361,10 @@ PrefabInstance:
     - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_Name
       value: Enemy (3)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
@@ -433,8 +445,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1 &797392450 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
@@ -455,8 +469,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1001 &855422402
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -624,7 +640,7 @@ Transform:
   m_LocalScale: {x: 175.58264, y: 1, z: 220.27057}
   m_Children: []
   m_Father: {fileID: 0}
-  m_RootOrder: 12
+  m_RootOrder: 13
   m_LocalEulerAnglesHint: {x: 0, y: 0, z: 0}
 --- !u!1 &963194225
 GameObject:
@@ -737,6 +753,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (2)
       objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
       value: 8
@@ -807,6 +827,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (8)
       objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
       value: 2
@@ -873,13 +897,17 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (4)
       objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
       value: 6
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_LocalPosition.x
-      value: 17.38
+      value: 25.8
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_LocalPosition.y
@@ -948,8 +976,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1 &1353980042 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
@@ -970,8 +1000,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1001 &1377579867
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -982,6 +1014,10 @@ PrefabInstance:
     - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_Name
       value: Enemy (1)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
@@ -1058,8 +1094,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1001 &1635247517
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1070,6 +1108,10 @@ PrefabInstance:
     - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_Name
       value: Enemy
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 1578983539692628364, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_Constraints
@@ -1149,6 +1191,10 @@ PrefabInstance:
       propertyPath: m_Name
       value: Enemy (7)
       objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
+      objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
       value: 5
@@ -1224,8 +1270,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1 &2050940835 stripped
 GameObject:
   m_CorrespondingSourceObject: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
@@ -1246,8 +1294,10 @@ MonoBehaviour:
   point: {fileID: 862909917}
   speed: 2
   runningSpeed: 4
-  isOutsideOfCameraView: 0
-  canAttack: 1
+  attackRadiusMelee: 10
+  midRadius: 20
+  canAttack: 0
+  isFar: 0
 --- !u!1001 &2081476389
 PrefabInstance:
   m_ObjectHideFlags: 0
@@ -1258,6 +1308,10 @@ PrefabInstance:
     - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_Name
       value: Enemy (5)
+      objectReference: {fileID: 0}
+    - target: {fileID: 1179278243686126674, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
+      propertyPath: m_IsActive
+      value: 1
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_RootOrder
@@ -1371,7 +1425,7 @@ PrefabInstance:
       objectReference: {fileID: 2050940836}
     - target: {fileID: 1845188324764380751, guid: 25525c72f00415948908d42f8fbf1353, type: 3}
       propertyPath: m_RootOrder
-      value: 13
+      value: 11
       objectReference: {fileID: 0}
     - target: {fileID: 1845188324764380751, guid: 25525c72f00415948908d42f8fbf1353, type: 3}
       propertyPath: m_LocalPosition.x
