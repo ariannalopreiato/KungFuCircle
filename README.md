@@ -31,3 +31,7 @@ The enemies outside of the camera view space won't attack the player since they 
 
 The result is a very basic product but that can be a good stepping stone for developing a far more complex behavior.
 
+This behavior works for places with big fields and a bunch of enemies.
+If the combat were to take place in smaller spaces and with less enemies, it would probably turn out ot be boring and quite repetitive.
+Some improvements that could be done on the project could be the placement of the enemies when nothing specificis going on by using for example the technique explained by the developers of Spiderman.
+
