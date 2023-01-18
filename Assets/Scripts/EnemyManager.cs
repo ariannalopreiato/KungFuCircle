@@ -12,6 +12,9 @@ public class EnemyManager : MonoBehaviour
 
     EnemyBehavior attackingEnemy = null;
 
+    [SerializeField]
+    Camera camera;
+
     private float attackRadius = 10f;
     private float backAttackRadius;
     private float idleRadius = 30f;
@@ -34,8 +37,14 @@ public class EnemyManager : MonoBehaviour
         //update states
         for (int i = 0; i < enemies.Count; ++i)
         {
-            if (enemies[i] != null)
-                enemies[i].UpdateEnemyState();
+            //check if the enemies are within the camera viewport
+            Vector3 viewportPosition = camera.WorldToViewportPoint(enemies[i].transform.position);
+            if (viewportPosition.x > 0 && viewportPosition.x < 1 && viewportPosition.y > 0 && viewportPosition.y < 1)
+                enemies[i].GetComponent<EnemyBehavior>().isOutsideOfCameraView = true;
+            else
+                enemies[i].GetComponent<EnemyBehavior>().isOutsideOfCameraView = false;
+
+            enemies[i].UpdateEnemyState();
         }
 
         if (!canNewAttackerBeSet)
@@ -52,7 +61,7 @@ public class EnemyManager : MonoBehaviour
         }
 
         IdleRadiusEnemies();
-        AttackingRadiusEnemies();      
+        AttackingRadiusEnemies();
     }
 
     void AttackingRadiusEnemies()
@@ -65,7 +74,8 @@ public class EnemyManager : MonoBehaviour
 
         for (int i = 0; i < enemiesInAttackRadius.Count; ++i)
         {
-            if (randomIdx == i && attackingEnemy == null && enemiesInAttackRadius[i].canAttack && canNewAttackerBeSet)
+            if (randomIdx == i && attackingEnemy == null && enemiesInAttackRadius[i].canAttack 
+                    && canNewAttackerBeSet && !enemiesInAttackRadius[i].isOutsideOfCameraView)
             {
                 //set attacking enemy
                 attackingEnemy = enemiesInAttackRadius[i];

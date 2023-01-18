@@ -205,12 +205,6 @@ MonoBehaviour:
   m_Script: {fileID: 11500000, guid: 0d80cc4cbe104ef47a0a25fb710c2ac6, type: 3}
   m_Name: 
   m_EditorClassIdentifier: 
-  idleState: {fileID: 0}
-  moveToPlayerState: {fileID: 0}
-  circulateState: {fileID: 0}
-  walkBackState: {fileID: 0}
-  attackState: {fileID: 0}
-  currentState: {fileID: 0}
 --- !u!114 &631852641 stripped
 MonoBehaviour:
   m_CorrespondingSourceObject: {fileID: 6523271446266105944, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
@@ -780,7 +774,7 @@ PrefabInstance:
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_LocalPosition.z
-      value: 28.53
+      value: 24.6
       objectReference: {fileID: 0}
     - target: {fileID: 2453595336636624864, guid: 6030bb497f1bd794b8caf8d562d18131, type: 3}
       propertyPath: m_LocalRotation.w

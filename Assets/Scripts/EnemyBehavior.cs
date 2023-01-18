@@ -19,6 +19,7 @@ public class EnemyBehavior : MonoBehaviour
     private bool rotateOpposite = false;
     private Vector3 startPos;
 
+    public bool isOutsideOfCameraView = false;
     public bool canAttack = true;
     public enum EnemyState
     {
