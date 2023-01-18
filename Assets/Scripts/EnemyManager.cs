@@ -10,6 +10,9 @@ public class EnemyManager : MonoBehaviour
     [SerializeField]
     GameObject player;
 
+    [SerializeField]
+    int maxEnemyAmtInAttackRange = 4;
+
     EnemyBehavior attackingEnemy = null;
 
     bool canNewAttackerBeSet;
@@ -26,6 +29,15 @@ public class EnemyManager : MonoBehaviour
         //update states
         for (int i = 0; i < enemies.Count; ++i)
         {
+            if (enemies[i].isCollidingWithOtherEnemies)
+            {
+                int randomBehavior = Random.Range(0, 1);
+                if(randomBehavior == 0)
+                    enemies[i].ChangeState(EnemyBehavior.EnemyState.walkingBack);
+                else
+                    enemies[i].ChangeState(EnemyBehavior.EnemyState.moveInCircles);
+            }
+
             //update the enemies' state
             enemies[i].UpdateEnemyState();
         }
@@ -77,9 +89,15 @@ public class EnemyManager : MonoBehaviour
                 else
                     enemiesInAttackRadius[i].ChangeState(EnemyBehavior.EnemyState.idle);
             }
+
+            if(i > maxEnemyAmtInAttackRange)
+            {
+                enemiesInAttackRadius[i].ChangeState(EnemyBehavior.EnemyState.walkingBack);
+                enemiesInAttackRadius.RemoveAt(i);
+            }
         }
 
-        //if the attacking enemy is still in its action
+        //if the attacking enemy is still in action
         if (attackingEnemy != null)
         {
             //the attacking enemy should attack the player

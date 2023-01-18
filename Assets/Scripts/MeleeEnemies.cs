@@ -58,12 +58,11 @@ public class MeleeEnemies : EnemyBehavior
     public override void WalkBack()
     {
         //walk back to the starting position
+        startPos = (-transform.forward * midRadius) + startPos;
+
         transform.position = Vector3.MoveTowards(transform.position, startPos, speed * Time.deltaTime);
         if (Vector3.Distance(transform.position, startPos) < 1f)
-        {
-            print("eh");
             canAttack = true;
-        }
     }
 
     public override void Idle()

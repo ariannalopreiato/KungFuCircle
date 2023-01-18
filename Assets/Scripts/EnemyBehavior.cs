@@ -23,6 +23,8 @@ public abstract class EnemyBehavior : MonoBehaviour
     [SerializeField]
     protected float attackRadiusMelee = 10f;
 
+    protected Vector3 target;
+
     //[SerializeField]
     //protected float farRadius = 30f;
 
@@ -37,6 +39,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     protected bool isOutsideOfCameraView = false;
     public bool canAttack = false;
     public bool isFar = false;
+    public bool isCollidingWithOtherEnemies = false;
 
     public enum EnemyState
     {
@@ -79,7 +82,7 @@ public abstract class EnemyBehavior : MonoBehaviour
     }
 
     void Start()
-    {
+    {       
         //find the camera
         var cameras = Camera.allCameras;
         camera = cameras[0];
@@ -89,6 +92,8 @@ public abstract class EnemyBehavior : MonoBehaviour
 
         //save the starting position of enemy
         startPos = gameObject.transform.position;
+
+        target = startPos;
 
         //randomize in which way the enemy it's going to move (clockwise or anticlockwise)
         int randomSign = UnityEngine.Random.Range(0, 2);
@@ -158,4 +163,16 @@ public abstract class EnemyBehavior : MonoBehaviour
     public abstract void WalkBack();
 
     public abstract void Idle();
+
+    private void OnTriggerEnter(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+            isCollidingWithOtherEnemies = true;
+    }
+
+    private void OnTriggerExit(Collider other)
+    {
+        if (other.gameObject.tag == "Enemy")
+            isCollidingWithOtherEnemies = false;
+    }
 }
