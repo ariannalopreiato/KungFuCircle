@@ -127,6 +127,6 @@ public class EnemyBehavior : MonoBehaviour
 
     public void Idle()
     {
-
+        transform.position = transform.position;
     }
 }

@@ -14,7 +14,7 @@ public class EnemyManager : MonoBehaviour
 
     private float attackRadius = 10f;
     private float backAttackRadius;
-    private float idleRadius = 40f;
+    private float idleRadius = 30f;
     private float frontIdleRadius;
     private float meleeRange = 2f;
 
@@ -24,8 +24,8 @@ public class EnemyManager : MonoBehaviour
 
     private void Start()
     {
+        frontIdleRadius = attackRadius + 5f;
         backAttackRadius = attackRadius + 3f;
-        frontIdleRadius = idleRadius - 5f;
         canNewAttackerBeSet = true;
     }
 
@@ -49,9 +49,10 @@ public class EnemyManager : MonoBehaviour
                 // Update the last attack time
                 lastAttackTime = Time.time;
             }
-        }   
+        }
 
-        AttackingRadiusEnemies();
+        IdleRadiusEnemies();
+        AttackingRadiusEnemies();      
     }
 
     void AttackingRadiusEnemies()
@@ -101,6 +102,23 @@ public class EnemyManager : MonoBehaviour
         }
     }
 
+    void IdleRadiusEnemies()
+    {
+        var enemiesInIdleRadius = GetEnemiesInIdleRadius();
+
+        for (int i = 0; i < enemiesInIdleRadius.Count; ++i)
+            enemiesInIdleRadius[i].ChangeState(EnemyBehavior.EnemyState.movingToTarget);
+
+        for (int j = 0; j < enemies.Count; ++j)
+        {
+            if (Vector3.Distance(enemies[j].transform.position, player.transform.position) <= frontIdleRadius &&
+                Vector3.Distance(enemies[j].transform.position, player.transform.position) > attackRadius)
+            {
+                enemies[j].ChangeState(EnemyBehavior.EnemyState.moveInCircles);
+            }
+        }
+    }
+
     List<EnemyBehavior> GetEnemiesInAbleToAttackRadius()
     {
         List<EnemyBehavior> attackRadiusEnemies = new List<EnemyBehavior>();
@@ -114,6 +132,22 @@ public class EnemyManager : MonoBehaviour
         }
 
         return attackRadiusEnemies;
+    }
+
+    List<EnemyBehavior> GetEnemiesInIdleRadius()
+    {
+        List<EnemyBehavior> idleRadiusEnemies = new List<EnemyBehavior>();
+
+        for (int i = 0; i < enemies.Count; ++i)
+        {
+            if (Vector3.Distance(enemies[i].transform.position, player.transform.position) <= idleRadius &&
+                Vector3.Distance(enemies[i].transform.position, player.transform.position) > frontIdleRadius)
+            {
+                idleRadiusEnemies.Add(enemies[i]);
+            }
+        }
+
+        return idleRadiusEnemies;
     }
 
     IEnumerator Wait(float time)
