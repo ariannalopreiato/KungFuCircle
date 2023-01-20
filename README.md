@@ -39,3 +39,8 @@ Currently, this works for places with big fields and a bunch of enemies, if the 
 This is the reason that in the Spiderman game, for example, the movement of the enemies is chosen between four different positions, calculated depending on the position of the player. This could be for sure an improvement that could be applied.
 The implementation is now open to add different types of enemies such as ranged or heavier enemies.
 
+**Sources**
+https://gdcvault.com/play/1025828/-Marvel-s-Spider-Man 
+https://www.youtube.com/watch?v=CT5gUNeTS1w&t=77s
+https://www.youtube.com/watch?v=GFOpKcpKGKQ
+
