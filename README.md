@@ -1,4 +1,5 @@
 # KungFuCircle
+A simple AI for enemies to make them act and move accordingly to the player's position and following the logic of a Kung Fu Circle.
 
 **What is the Kung Fu Circle?**
 
@@ -11,27 +12,30 @@ Spiderman and Batman Arkham Asylum are the two games that I took as guidance in 
 
 **My implementation**
 
+All the code and setup has been done in Unity using C#.
 The first step of the implementation was to mimic the main movements of the enemies: the moving to the player and back and the circulating around the player.
-With this done, I moved on to setting up a State Machine for the different states that the enemies could have been in.
-In the beginning it didn't turn out to be extremely useful but as I proceeded I found it to make my code cleaner and clearer.
+With this done, I moved on to setting up a **State Machine** for the different states that the enemies could have been in: idle, movingToTarget, moveInCircles, walkingBack, attacking.
 
-The enemies are all controlled by an Enemy Manager that depending on what the enemies are available for, can proceed to change their state to the desired behavior and update it.
-The enemies can be of different types (ranged, melee), which means that I made a specific script for the type of enemy that I needed and made it inherit from the "EnemyBehavior" script.
-Inside of the Enemy Behavior script is all the code common to all the enemies and the abstract classes that refer to the behaviors called depending on the state the enemy is in.
-The behaviors are specific to the type of enemy, which means that in the script for it, there will be a definition for each behavior.
-In the State script there is a definition for each behavior that takes as a parameter the current enemy and calls its implementation for given behavior. In this way, the Enemy Manager doesn't need to look at what type of enemy is acting, but just update the state for every enemy.
+As there can be different types of enemies, I made a base class for the enemies so that each one could edit the behavior that gets called from the state machine.
+Since each state asks for a base enemy as parameter, this implementation allows the Enemy Manager to simply update or change the enemy state without having to know which enemy it is. 
 
-In the Enemy Behavior, the enemies are either set to attacking or far away. This information is used by the Enemy Manager to decide the behavior that the enemy should have.
-It checks through all the enemies that can attack, which are the ones inside of the attack range, chooses a random one out of all of them and changes its state to attacking, while the other circulate around the player.
-Once the enemy has attacked a timer starts and it steps back and is not allowed to attack anymore until it has reached a position bigger or equal to the attack range.
-When the timer goes off, a new enemy is set to attacking and so on.
-It then checks through all the enemies signed as far away, which are all the ones furher away than the attack range. This enemies can either circulate or get closer to the player.
+So far, this KungFu circle has two radiuses. The attacking radius melee and a far radius.
+The way this works is that when an enemy will be in the attacking radius, it will be marked as able to attack, and will be saved in a list of enemies that can also attack. The manager for the enemies goes through all of them and chooses a random one to attack the player changing its state to attacking. 
+The others will continue to either move around the player or move away from it.
+Once the attacking enemy is done attacking, it will retreat to leave space to the other enemies.
+
+All the other enemies beyond the far radius will come closer to the player and either start circulating or retreat as well.
+
+![](https://github.com/ariannalopreiato/KungFuCircle/blob/main/Media/FarAwayEnemies.gif)
+
 To make it look a bit more realistic, I made it so that if the enemies enter each others range they will move away either by stepping back or by circulating. This avoids the creation of big crowds or lines of enemies following the player. It leaves enough space for the player to move and be able to avoid/attack.
 The enemies outside of the camera view space won't attack the player since they are not visible, they will also either circulate or move closer to the player.
 
-The result is a very basic product but that can be a good stepping stone for developing a far more complex behavior.
 
-This behavior works for places with big fields and a bunch of enemies.
-If the combat were to take place in smaller spaces and with less enemies, it would probably turn out ot be boring and quite repetitive.
-Some improvements that could be done on the project could be the placement of the enemies when nothing specificis going on by using for example the technique explained by the developers of Spiderman.
+**Conclusion and future works**
+
+The result is a very basic product but that can be a good stepping stone for developing a far more complex behavior.
+Currently, this works for places with big fields and a bunch of enemies, if the combat were to take place in smaller spaces and with less enemies, it would probably turn out ot be boring and quite repetitive.
+This is the reason that in the Spiderman game, for example, the movement of the enemies is chosen between four different positions, calculated depending on the position of the player. This could be for sure an improvement that could be applied.
+The implementation is now open to add different types of enemies such as ranged or heavier enemies
 
