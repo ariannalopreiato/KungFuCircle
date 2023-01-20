@@ -37,5 +37,5 @@ The enemies outside of the camera view space won't attack the player since they 
 The result is a very basic product but that can be a good stepping stone for developing a far more complex behavior.
 Currently, this works for places with big fields and a bunch of enemies, if the combat were to take place in smaller spaces and with less enemies, it would probably turn out ot be boring and quite repetitive.
 This is the reason that in the Spiderman game, for example, the movement of the enemies is chosen between four different positions, calculated depending on the position of the player. This could be for sure an improvement that could be applied.
-The implementation is now open to add different types of enemies such as ranged or heavier enemies
+The implementation is now open to add different types of enemies such as ranged or heavier enemies.
 
